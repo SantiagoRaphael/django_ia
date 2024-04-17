@@ -1,0 +1,22 @@
+<form method="POST" action="{% url view_url %}">
+    {% csrf_token %}     <!-- Camada de proteção contra ataques... -->
+    <div class="mb-3">
+        <textarea class="form-control" name="code" placeholder="{{text_area_placeholder}}" required rows="3">{{code}}</textarea>
+    </div>
+    <select class="form-select" name="linguagem" >
+        <option>Selecione a linguagem de programação</option>
+        {% for linguagem_ in linguagens %} 
+            {% if linguagem == linguagem_ %}
+                <option selected value="{{linguagem_}}">{{linguagem_}}</option>
+            {% else %} <!-- tirei 2 pontos do else e o bug saiu '-' -->
+                <option value="{{linguagem_}}">{{linguagem_}}</option>
+            {% endif %}
+        {% endfor %}
+        
+    </select>
+
+    <br>
+    <button type="submit" class="btn btn-secondary">
+        Enviar
+    </button>
+</form>

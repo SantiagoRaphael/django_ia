@@ -1,0 +1,49 @@
+<nav class="navbar navbar-dark navbar-expand-lg bg-primary sticky-top">     <!-- sticky-top mantem a navbar no topo. fixada. -->
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">DJANGO IA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link 
+              {% if view.id == 'correcao' %} active aria-current='page' {% endif %}"
+              href="{% url 'correcao' %}">Correção</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link 
+              {% if view.id == 'criacao' %} active aria-current='page' {% endif %}"
+              href="{% url 'criacao' %}">Criação</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link 
+              {% if view.id == 'geral' %} active aria-current='page' {% endif %}"
+              href="{% url 'geral' %}">Geral</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link 
+              {% if view.id == 'historico' %} active aria-current='page' {% endif %}"
+              href="#">Histórico</a>  
+            </li>
+        </ul>
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <a class="nav-link" href="{% url 'signout' %}">Logout</a>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <a class="nav-link" href="{% url 'signin' %}">Login</a>
+              <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+            </ul>
+        {% endif %}
+          
+     
+
+
+      </div>
+    </div>
+  </nav>

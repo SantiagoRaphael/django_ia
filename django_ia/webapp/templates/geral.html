@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+    {% if response %}
+        {% with pergunta=code resposta=response %}
+            {% include "respostas.html" %}
+        {% endwith %}
+    {% else %}
+        {% with pergunta="curiosidades" resposta="bielo russia faz  fronteira com russia e ucrania" %} 
+            {% include "respostas.html" %}
+        {% endwith %}
+
+    {% endif %}
+<br>
+<br>
+<form method="POST" action="{% url 'geral' %}">
+    {% csrf_token %}     <!-- Camada de proteção contra ataques... -->
+    <div class="mb-3">
+        <textarea class="form-control" name="code" placeholder="Digite uma instrução para a IA" required rows="3">{{code}}</textarea>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-secondary">
+        Enviar
+    </button>
+</form>
+
+{% endblock content %}
+
