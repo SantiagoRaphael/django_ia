@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 import openai
+from webapp.models import Registros
 
 OPENAI_KEY = ""
 
@@ -55,9 +56,18 @@ def correcao(request):
                 presence_penalty = 0.0
             )
             params["response"] = response["choices"][0]["text"].strip()
+        
+            #salva o registro no historico
+            registro = Registros(
+                pergunta=params["code"],
+                respostas=params["response"],
+                linguagem=params["linguagem"],
+                user=request.user,
+                tipo=params["view"]["id"]
+            )
+            registro.save()
         except Exception as e:
             params["code"] = e
-        
 
     return render(request, "correcao.html", params)
 
@@ -88,6 +98,15 @@ def criacao(request):
                 presence_penalty = 0.0
             )
             params["response"] = response["choices"][0]["text"].strip()
+            #salva o registro no historico
+            registro = Registros(
+                pergunta=params["code"],
+                respostas=params["response"],
+                linguagem=params["linguagem"],
+                user=request.user,
+                tipo=params["view"]["id"]
+            )
+            registro.save()
         except Exception as e:
             params["code"] = e
         
@@ -117,8 +136,32 @@ def geral(request):
                 presence_penalty = 0.0
             )
             params["response"] = response["choices"][0]["text"].strip()
+            #salva o registro no historico
+            registro = Registros(
+                pergunta=params["code"],
+                respostas=params["response"],
+                linguagem="geral",
+                user=request.user,
+                tipo=params["view"]["id"]
+            )
+            registro.save()
         except Exception as e:
             params["code"] = e
         
 
     return render(request, "geral.html", params)
+
+def historico(request):
+    registros = Registros.objects.filter(user_id=request.user.id)
+    params = {
+    "titulo":"Historico",
+    "registros":registros
+    }
+    return render(request, "historico.html", params)
+
+
+def deletar_registro(request, id_do_registro):
+    registro = Registros.objects.get(pk=id_do_registro)
+    registro.delete()
+    messages.sucess(request, "Registro deletado")
+    return redirect("historico")

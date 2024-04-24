@@ -27,7 +27,7 @@
             <li class="nav-item">
               <a class="nav-link 
               {% if view.id == 'historico' %} active aria-current='page' {% endif %}"
-              href="#">Histórico</a>  
+              href="{% url 'historico' %}">Histórico</a>  
             </li>
         </ul>
         {% if user.is_authenticated %}
@@ -40,9 +40,6 @@
               <a class="nav-link" href="{% url 'registro' %}">Registro</a>
             </ul>
         {% endif %}
-          
-     
-
 
       </div>
     </div>

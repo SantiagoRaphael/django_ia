@@ -1,3 +1,7 @@
 from django.contrib import admin
+from webapp.models import Registros
 
-# Register your models here.
+admin.site.register(Registros)
+
+#criar adm
+#python manage.py createsuperuser
